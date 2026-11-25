@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://2691951254-cloud.github.io/xtoolbox-site/sitemap.xml
