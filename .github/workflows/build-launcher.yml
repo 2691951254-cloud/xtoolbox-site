@@ -1,0 +1,28 @@
+name: 打包Java版一键启动器
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: 安装 PyInstaller
+        run: python -m pip install --disable-pip-version-check pyinstaller
+      - name: 打包启动器
+        shell: pwsh
+        env:
+          PYTHONIOENCODING: utf-8
+          PYTHONUTF8: '1'
+        run: python -m PyInstaller --onefile --noconsole --clean --name JavaLauncher launcher.py
+      - name: 上传制品
+        uses: actions/upload-artifact@v4
+        with:
+          name: JavaLauncher-exe
+          path: dist/JavaLauncher.exe
+          if-no-files-found: error
